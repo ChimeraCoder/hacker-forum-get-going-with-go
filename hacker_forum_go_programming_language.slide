@@ -12,6 +12,7 @@ http://www.adityamukerjee.net
 
 * Personal Background
 
+- Master's student in computer science at [[http://tech.cornell.edu][Cornell NYC Tech]]
 - Studied computer science and statistics at Columbia
 - Worked on the server team at foursquare (Explore recommendation engine)
 - Previously on the OkCupid data team (conducted research for [[http://blog.okcupid.com/index.php/the-real-stuff-white-people-like/][OkTrends]] reports)
@@ -23,12 +24,14 @@ http://www.adityamukerjee.net
 * Birth
 - Go was first announced in 2009
 - Go 1.0 (first stable release) was released in 2012
-- Current version: 1.1 
+- Current version: 1.2 (as of today! [[http://isgo1point2.outyet.org/]])
 .image go_gopher_color_logo_250x249[1].png
 
 * Systems programming
 - Developed by Google to address *systems* programming challenges
+- Youtube uses Go to help scaling MySQL: [[https://github.com/youtube/vitess]]
 - [[http://dl.google.com]] was recently rewritten from C++ to Go
+
 
 * Design goals
 - Make managing *concurrent/distributed*systems* easy 
@@ -37,27 +40,10 @@ http://www.adityamukerjee.net
 - Easy to *build*&*deploy*
 
 
-* OkCupid Data Workflow (circa 2009)
-- 80% munging (Python), 20% statistical analysis (R)
+Full list of design goals, according to Rob Pike: [[http://talks.golang.org/2012/splash.article][http://talks.golang.org/2012/splash.article]]
 
 
-* Python in 2009
-- In 2009, Python was useable for data science, but not as convenient as today
-- Tools like Pandas either didn't exist yet or were not stable/widely adopted
-- RPy existed (since 2002)
-- Numpy existed (since 2005, previously "Numeric")
-- Scipy existed, though with far fewer components and features
-- All the munging tools were in place, but numerical tools were lagging somewhat
-
-* Go in 2013
-
-- Lots of munging tools available
-- Numerical tools exist, but are still WIPs
-- [[https://github.com/sbinet/go-python][go-python]] provides CPython bindings
-- [[https://github.com/skelterjohn/go.matrix][go-matrix]] provides some vector/matrix operations
-- No clear equivalent to Pandas yet
-
-* Advantages of Go (for statisticians)
+* Advantages of Go
 
 - Very fast (runtime)
 - Very fast (compilation)
@@ -71,23 +57,11 @@ http://www.adityamukerjee.net
 * Disadvantages of Go
 
 - Relatively new language (but not that new)!
-- Academia tends to be slower to pick up new tools
 
 * Speed
 
 - Go tends to be *>10x* faster than Python (and *>50x* faster than R)
-- Go compiles as fast as the Python interpreter takes to start up
-
-* Type system
-
-- Go is *statically*typed* 
-- Go's *type*inference* makes static typing painless
-.code typing_example.go
-- Go's *interfaces* provide some of the benefits of dynamic typing
-- Refactoring and debugging are easier because the compiler is strict
-
-
-* Getting started with Go
+- Go compiles in less time than the Python interpreter takes to start up
 
 * Go for Python programmers
 
@@ -98,18 +72,25 @@ http://www.adityamukerjee.net
 
 See also: [[https://github.com/ChimeraCoder/go-for-pythonists][Go for Pythonists]]
 
-* Go for R programmers
+* Go for Ruby or Node.js programmers
 
-- Go's structs & methods are far simpler than S3/S4 methods
-- You will love the speed and reliability
+Most of the points from the previous slide apply 
+
 - You will love the native concurrency
-- You will miss the 'lapply', etc. paradigms at first.
-- You will miss the diverse selection of advanced statistical packages
+- You will love the *truly* optional semicolons
+- You will miss "There's More Than One Way To Do It" at first
 
-* Tips for R programmers
-- Go is more imperative than R - get used to explicit iterations
-- Structs are very lightweight - don't be afraid to use them
-- Let the compiler guide you
+
+* Getting started with Go
+
+* Type system
+
+- Go is *statically*typed* 
+- Go's *type*inference* makes static typing painless
+.code typing_example.go
+- Go's *interfaces* provide some of the benefits of dynamic typing
+- Refactoring and debugging are easier because the compiler is *strict*
+
 
 
 * Function declaration
@@ -119,15 +100,20 @@ See also: [[https://github.com/ChimeraCoder/go-for-pythonists][Go for Pythonists
 - By default, an uninitialized value carries the *zero*value* for that type
 - Encourages you to design your application in such a way that the default values are meaningful
 
+.image 2013-12-02-122228_672x354_scrot.png
 
 * For loops/If statements
 .code for_loop_example.go
+
+- Pretty boring.
+- (But boring is good!)
 
 
 * Error Handling
 - *Explicit*is*better*than*implicit*
 - Instead of raising exceptions, *return*errors*
 - Errors are more *visible* in the code
+.code error_example.go
 
 
 * Structs
@@ -136,7 +122,7 @@ See also: [[https://github.com/ChimeraCoder/go-for-pythonists][Go for Pythonists
 - *No* inheritance
 .code struct_example.go
 - Nested structs are permitted
-.code embedded_struct.go
+.code nested_struct.go
 
 
 * Interfaces in Go
@@ -221,11 +207,11 @@ Some tools included for free in the [[http://golang.org/pkg/][standard library]]
 
 * Example: Rate-Limiting & Scraping
 
-- (For the full project, see [[github.com/ChimeraCoder/goangel][goangel]] on Github)
+- (For the full project, see [[https://github.com/ChimeraCoder/anaconda][anaconda]] and [[https://github.com/ChimeraCoder/tokenbucket][tokenbucket]] on Github)
 .code rate_limit_example.go
 
 
-- This lets us decouple the asynchronous scraping from the (synchronous) rate-limiting
+- This lets us *decouple* the asynchronous scraping from the (synchronous) rate-limiting
 
 
 * Channels for parallel computation
@@ -257,6 +243,12 @@ Some tools included for free in the [[http://golang.org/pkg/][standard library]]
 [[github.com/ChimeraCoder/gojson][go-json]] - automatically generate static struct definitions for JSON unmarshalling
 [[labix.org/mgo][mgo]] - a MongoDB client library for Go
 [[github.com/garyburd/redigo/redis][redigo]] - A Redis client library in Go
+
+* Testing in Go
+
+- Go 1.2 includes a test coverage tool
+
+.image PJBBMu8.png
 
 
 * Conclusion
