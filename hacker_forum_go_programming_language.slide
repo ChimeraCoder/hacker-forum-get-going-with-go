@@ -48,7 +48,7 @@ Full list of design goals, according to Rob Pike: [[http://talks.golang.org/2012
 - Very fast (runtime)
 - Very fast (compilation)
 - Native concurrency 
-- Easy parallelization (R is single threaded, Python has GIL)
+- Easy parallelization (Python has GIL, Node.js is single-threaded)
 - Portable (cross-compilation)
 - Can call other languages from within Go
 - Type system: safety of static typing, with the flexibility of dynamic (via interfaces)
@@ -192,8 +192,7 @@ Yes, it really is just that easy.
 - Channels make sharing information between goroutines easy
 - Go includes [[http://golang.org/doc/articles/race_detector.html][a built-in race detector]]
 
-
-* Data processing in Go
+* The Go Toolchain and Libraries
 
 * Go Standard Library
 Some tools included for free in the [[http://golang.org/pkg/][standard library]]:
@@ -202,6 +201,20 @@ Some tools included for free in the [[http://golang.org/pkg/][standard library]]
 - Web scraping: [[http://golang.org/pkg/encoding/xml/][xml]] parser
 - Email: [[http://golang.org/pkg/net/mail/][parse]] and [[http://golang.org/pkg/net/smtp/][send]] emails
 - Numerical tools: Arithmetic on [[http://golang.org/pkg/math/big/][large numbers]] and [[http://golang.org/pkg/math/cmplx/][complex/imaginary]] numbers
+- Security: A TLS 1.0 server [[http://golang.org/pkg/crypto/tls/]]
+
+
+* Testing in Go
+
+- Go 1.2 includes a test coverage tool
+.image PJBBMu8.png
+
+* gofmt
+
+- gofmt standardizes the formatting of source code
+- gofmt can simplify expressions in code deterministically
+- It can also be used to refactor code
+
 
 * Data scraping in Go
 
@@ -232,6 +245,11 @@ Some tools included for free in the [[http://golang.org/pkg/][standard library]]
 
 .image 2013-08-18-220614_1366x768_scrot.png
 
+* Example: Building Pluto (a Planet-like aggregator)
+
+(See [[https://github.com/ChimeraCoder/pluto][Pluto]] on Github)
+
+.image 2013-12-02-150739_955x358_scrot.png
 
 * Writing extensions in C
 
@@ -244,14 +262,3 @@ Some tools included for free in the [[http://golang.org/pkg/][standard library]]
 [[labix.org/mgo][mgo]] - a MongoDB client library for Go
 [[github.com/garyburd/redigo/redis][redigo]] - A Redis client library in Go
 
-* Testing in Go
-
-- Go 1.2 includes a test coverage tool
-
-.image PJBBMu8.png
-
-
-* Conclusion
-
-- Go is *already* an excellent tool for data processing, scraping, munging, and scripting
-- Go is *becoming* an excellent tool for numerical work and scientific computation
