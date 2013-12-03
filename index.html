@@ -1,0 +1,996 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Hacker Forum: The Go Programming Language</title>
+    <meta charset='utf-8'>
+    <script src='static/slides.js'></script>
+    <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-42886409-1', 'chimeracoder.github.io');
+        ga('send', 'pageview');
+    </script>
+  </head>
+
+  <body style='display: none'>
+
+    <section class='slides layout-widescreen'>
+      
+      <article>
+        <h1>Hacker Forum: The Go Programming Language</h1>
+        <h3>nyhacker</h3>
+        <h3>2 December 2013</h3>
+        
+          <div class="presenter">
+            
+  
+  <p>
+    Aditya Mukerjee
+  </p>
+  
+
+          </div>
+        
+          <div class="presenter">
+            
+          </div>
+        
+      </article>
+      
+  
+  
+      <article>
+      
+        <h3></h3>
+        
+<div class="image">
+  <img src="88x31.png">
+</div>
+
+      
+      </article>
+  
+  
+  
+      <article>
+      
+        <h3>Personal Background</h3>
+        
+  <ul>
+  
+    <li>Master&#39;s student in computer science at <a href="http://tech.cornell.edu" target="_blank">Cornell NYC Tech</a></li>
+  
+    <li>Studied computer science and statistics at Columbia</li>
+  
+    <li>Worked on the server team at foursquare (Explore recommendation engine)</li>
+  
+    <li>Previously on the OkCupid data team (conducted research for <a href="http://blog.okcupid.com/index.php/the-real-stuff-white-people-like/" target="_blank">OkTrends</a> reports)</li>
+  
+    <li>Most recently, Hacker-in-Residence at Quotidian Ventures</li>
+  
+    <li>hackNY fellow 2011</li>
+  
+  </ul>
+
+      
+      </article>
+  
+  
+  
+      <article>
+      
+        <h2>Overview of Go History</h2>
+      
+      </article>
+  
+  
+  
+      <article>
+      
+        <h3>Birth</h3>
+        
+  <ul>
+  
+    <li>Go was first announced in 2009</li>
+  
+    <li>Go 1.0 (first stable release) was released in 2012</li>
+  
+    <li>Current version: 1.2 (as of today! <a href="http://isgo1point2.outyet.org/" target="_blank">http://isgo1point2.outyet.org/</a>)</li>
+  
+  </ul>
+
+<div class="image">
+  <img src="go_gopher_color_logo_250x249[1].png">
+</div>
+
+      
+      </article>
+  
+  
+  
+      <article>
+      
+        <h3>Systems programming</h3>
+        
+  <ul>
+  
+    <li>Developed by Google to address <b>systems</b> programming challenges</li>
+  
+    <li>Youtube uses Go to help scaling MySQL: <a href="https://github.com/youtube/vitess" target="_blank">https://github.com/youtube/vitess</a></li>
+  
+    <li><a href="http://dl.google.com" target="_blank">http://dl.google.com</a> was recently rewritten from C++ to Go</li>
+  
+  </ul>
+
+      
+      </article>
+  
+  
+  
+      <article>
+      
+        <h3>Design goals</h3>
+        
+  <ul>
+  
+    <li>Make managing <b>concurrent/distributed systems</b> easy </li>
+  
+    <li>Simplify <b>collaboration</b> between multiple developers</li>
+  
+    <li>Facilitate <b>evolving</b> codebases (refactoring, etc.)</li>
+  
+    <li>Easy to <b>build &amp; deploy</b></li>
+  
+  </ul>
+
+  
+  <p>
+    Full list of design goals, according to Rob Pike: <a href="http://talks.golang.org/2012/splash.article" target="_blank">http://talks.golang.org/2012/splash.article</a>
+  </p>
+  
+
+      
+      </article>
+  
+  
+  
+      <article>
+      
+        <h3>Advantages of Go</h3>
+        
+  <ul>
+  
+    <li>Very fast (runtime)</li>
+  
+    <li>Very fast (compilation)</li>
+  
+    <li>Native concurrency </li>
+  
+    <li>Easy parallelization (Python has GIL, Node.js is single-threaded)</li>
+  
+    <li>Portable (cross-compilation)</li>
+  
+    <li>Can call other languages from within Go</li>
+  
+    <li>Type system: safety of static typing, with the flexibility of dynamic (via interfaces)</li>
+  
+  </ul>
+
+      
+      </article>
+  
+  
+  
+      <article>
+      
+        <h3>Disadvantages of Go</h3>
+        
+  <ul>
+  
+    <li>Relatively new language (but not that new)!</li>
+  
+  </ul>
+
+      
+      </article>
+  
+  
+  
+      <article>
+      
+        <h3>Speed</h3>
+        
+  <ul>
+  
+    <li>Go tends to be <b>&gt;10x</b> faster than Python (and <b>&gt;50x</b> faster than R)</li>
+  
+    <li>Go compiles in less time than the Python interpreter takes to start up</li>
+  
+  </ul>
+
+      
+      </article>
+  
+  
+  
+      <article>
+      
+        <h3>Go for Python programmers</h3>
+        
+  <ul>
+  
+    <li>Go fits the <a href="http://www.python.org/dev/peps/pep-0020/" target="_blank">Zen of Python</a> very well</li>
+  
+    <li>You will love gofmt</li>
+  
+    <li>You will love the native concurrency</li>
+  
+    <li>You will miss duck typing at first, until you learn to use interfaces</li>
+  
+  </ul>
+
+  
+  <p>
+    See also: <a href="https://github.com/ChimeraCoder/go-for-pythonists" target="_blank">Go for Pythonists</a>
+  </p>
+  
+
+      
+      </article>
+  
+  
+  
+      <article>
+      
+        <h3>Go for Ruby or Node.js programmers</h3>
+        
+  
+  <p>
+    Most of the points from the previous slide apply 
+  </p>
+  
+
+  <ul>
+  
+    <li>You will love the native concurrency</li>
+  
+    <li>You will love the <b>truly</b> optional semicolons</li>
+  
+    <li>You will miss &#34;There&#39;s More Than One Way To Do It&#34; at first</li>
+  
+  </ul>
+
+      
+      </article>
+  
+  
+  
+      <article>
+      
+        <h2>Getting started with Go</h2>
+      
+      </article>
+  
+  
+  
+      <article>
+      
+        <h3>Type system</h3>
+        
+  <ul>
+  
+    <li>Go is <b>statically typed</b> </li>
+  
+    <li>Go&#39;s <b>type inference</b> makes static typing painless</li>
+  
+  </ul>
+
+  <div class="code" contenteditable="true" spellcheck="false"><!--{{.code typing_example.go}}
+--><pre>func addOne(a int) int {
+    return a + 1
+}
+func main(){
+    a := 5
+    b := addOne(a) //Assigned type is inferred
+}</pre></div>
+
+  <ul>
+  
+    <li>Go&#39;s <b>interfaces</b> provide some of the benefits of dynamic typing</li>
+  
+    <li>Refactoring and debugging are easier because the compiler is <b>strict</b></li>
+  
+  </ul>
+
+      
+      </article>
+  
+  
+  
+      <article>
+      
+        <h3>Function declaration</h3>
+        
+  <div class="code" contenteditable="true" spellcheck="false"><!--{{.code function_declaration.go}}
+--><pre>func doSomething(){
+    var foo int
+    foo = 6
+    bar := 8
+}</pre></div>
+
+      
+      </article>
+  
+  
+  
+      <article>
+      
+        <h3>Zero values</h3>
+        
+  <ul>
+  
+    <li>By default, an uninitialized value carries the <b>zero value</b> for that type</li>
+  
+    <li>Encourages you to design your application in such a way that the default values are meaningful</li>
+  
+  </ul>
+
+<div class="image">
+  <img src="2013-12-02-122228_672x354_scrot.png">
+</div>
+
+      
+      </article>
+  
+  
+  
+      <article>
+      
+        <h3>For loops/If statements</h3>
+        
+  <div class="code" contenteditable="true" spellcheck="false"><!--{{.code for_loop_example.go}}
+--><pre>func PrintAllNames(names []string){
+    for _, name := range names {
+        if name != &#34;&#34; {
+            fmt.Println(name)
+        }
+    }
+}</pre></div>
+
+  <ul>
+  
+    <li>Pretty boring.</li>
+  
+    <li>(But boring is good!)</li>
+  
+  </ul>
+
+      
+      </article>
+  
+  
+  
+      <article>
+      
+        <h3>Error Handling</h3>
+        
+  <ul>
+  
+    <li><b>Explicit is better than implicit</b></li>
+  
+    <li>Instead of raising exceptions, <b>return errors</b></li>
+  
+    <li>Errors are more <b>visible</b> in the code</li>
+  
+  </ul>
+
+  <div class="code" contenteditable="true" spellcheck="false"><!--{{.code error_example.go}}
+--><pre>user, err := api.GetUser(id)
+if err != nil{
+    // Handle API error
+}</pre></div>
+
+      
+      </article>
+  
+  
+  
+      <article>
+      
+        <h3>Structs</h3>
+        
+  <ul>
+  
+    <li>All fields are defined at compiletime</li>
+  
+    <li><b>No</b> inheritance</li>
+  
+  </ul>
+
+  <div class="code" contenteditable="true" spellcheck="false"><!--{{.code struct_example.go}}
+--><pre>type CheckingAccount struct {
+    Balance int
+    superSecretId int64
+}</pre></div>
+
+  <ul>
+  
+    <li>Nested structs are permitted</li>
+  
+  </ul>
+
+  <div class="code" contenteditable="true" spellcheck="false"><!--{{.code nested_struct.go}}
+--><pre>type Person struct {
+    MainAccount CheckingAccount
+}
+
+type Bank struct {
+    Accounts []CheckingAccount
+    SavingsAccounts []struct{
+        Balance int
+        InterestRate float64
+    }
+}</pre></div>
+
+      
+      </article>
+  
+  
+  
+      <article>
+      
+        <h3>Interfaces in Go</h3>
+        
+  <ul>
+  
+    <li>If <b>any</b> type provides the methods of an interface, it belongs to the interface</li>
+  
+    <li>Like dynamic languages with &#34;duck&#34; typing, you simply use the struct and it &#34;just works&#34;</li>
+  
+    <li>Unlike dynamic languages, safety is checked at compile-time</li>
+  
+  </ul>
+
+      
+      </article>
+  
+  
+  
+      <article>
+      
+        <h3>Using Interfaces</h3>
+        
+  <div class="code" contenteditable="true" spellcheck="false"><!--{{.code interface_example.go}}
+--><pre>type Account interface {
+    Deposit(int) error
+}
+
+type CheckingAccount struct {
+    Balance int 
+        superSecretId int64
+}
+
+func (destination CheckingAccount) Deposit(amount int) error {
+    destination.Balance += amount
+    return nil
+}
+
+// We want to donate money to any account type (Checking, Savings)
+// Donations require a tax receipt
+func Donate(recipient Account, amount int) error {
+    err := recipient.Deposit(amount)
+    if err != nil{
+        return err
+    }
+    IssueTaxReceipt(amount)
+}</pre></div>
+
+      
+      </article>
+  
+  
+  
+      <article>
+      
+        <h2>Concurrency in Go</h2>
+      
+      </article>
+  
+  
+  
+      <article>
+      
+        <h3>Go&#39;s Concurrency Model:</h3>
+        
+  <ul>
+  
+    <li>&#34;Do not communicate by sharing memory; instead, share memory by communicating.&#34;&#34;</li>
+  
+    <li>Make writing concurrent, asynchronous code as easy as writing synchronous code</li>
+  
+  </ul>
+
+      
+      </article>
+  
+  
+  
+      <article>
+      
+        <h3>Concurrency in Go: Goroutines</h3>
+        
+  <ul>
+  
+    <li>Goroutines are <b>not</b> threads</li>
+  
+    <li>Goroutines are <b>not</b> coroutines</li>
+  
+    <li>Goroutines are <b>not</b> processes</li>
+  
+  </ul>
+
+      
+      </article>
+  
+  
+  
+      <article>
+      
+        <h3>So what is a goroutine?</h3>
+        
+  
+  <p>
+    <a href="http://golang.org/doc/effective_go.html#goroutines" target="_blank">From the docs:</a>
+<br>
+
+    - A goroutine is &#34;a function executing concurrently with other goroutines in the same address space&#34;
+<br>
+
+    - Goroutines are <b>light</b>
+<br>
+
+    - Goroutines are <b>multiplexed</b> onto multiple OS threads
+<br>
+
+    - Goroutines are similar to the <b>&amp;</b> operator in bash/sh
+  </p>
+  
+
+      
+      </article>
+  
+  
+  
+      <article>
+      
+        <h3>Synchronicity by Example</h3>
+        
+  <div class="code" contenteditable="true" spellcheck="false"><!--{{.play synchronous_greet.go /START OMIT/,/END OMIT/}}
+--><pre>func Greet(name string) {
+    log.Printf(&#34;Greetings, %s!&#34;, name)
+    time.Sleep(3 * time.Second)
+}
+
+func main() {
+    Greet(&#34;Alice&#34;)
+    Greet(&#34;Bob&#34;)
+}</pre></div>
+
+      
+      </article>
+  
+  
+  
+      <article>
+      
+        <h3>Goroutines by Example</h3>
+        
+  <div class="code" contenteditable="true" spellcheck="false"><!--{{.play async_greet.go /START OMIT/,/END OMIT/}}
+--><pre>func Greet(name string) {
+    log.Printf(&#34;Greetings, %s!&#34;, name)
+    time.Sleep(3 * time.Second)
+}
+
+func main() {
+    go Greet(&#34;Alice&#34;)
+    go Greet(&#34;Bob&#34;)
+
+    time.Sleep(5 * time.Second)
+}</pre></div>
+
+  
+  <p>
+    Yes, it really is just that easy.
+  </p>
+  
+
+      
+      </article>
+  
+  
+  
+      <article>
+      
+        <h3>Goroutines vs. Callbacks</h3>
+        
+  <ul>
+  
+    <li>Goroutines resemble synchronous code</li>
+  
+    <li>Callbacks resemble synchronous code turned &#34;inside out&#34;</li>
+  
+    <li>It is easy to turn a function call into a goroutine</li>
+  
+    <li>It is difficult to refactor synchronous code to use callbacks</li>
+  
+  </ul>
+
+      
+      </article>
+  
+  
+  
+      <article>
+      
+        <h3>Concurrency in Go: Channels</h3>
+        
+  <ul>
+  
+    <li>Channels provide a convenient way to share information between goroutines</li>
+  
+    <li>Channels serve as a &#34;synchronization point&#34; between otherwise independent, concurrent goroutines</li>
+  
+  </ul>
+
+      
+      </article>
+  
+  
+  
+      <article>
+      
+        <h3>Channels by Example:</h3>
+        
+  <div class="code" contenteditable="true" spellcheck="false"><!--{{.play channel_example.go /START OMIT/,/END OMIT/}}
+--><pre>func Greet(name string, response_chan chan string) {
+    greeting := fmt.Sprintf(&#34;Greetings, %s!&#34;, name)
+    response_chan &lt;- greeting
+}
+
+func main() {
+
+    cs := make(chan string)
+    go Greet(&#34;Alice&#34;, cs)
+    greeting := &lt;-cs
+    log.Print(greeting)
+}</pre></div>
+
+      
+      </article>
+  
+  
+  
+      <article>
+      
+        <h3>Let&#39;s take a closer look at that:</h3>
+        
+  <div class="code" contenteditable="true" spellcheck="false"><!--{{.play channel_example_annotated.go /START OMIT/,/END OMIT/}}
+--><pre>func Greet(name string, response_chan chan string) {
+    time.Sleep(3 * time.Second)
+    greeting := fmt.Sprintf(&#34;Greetings, %s!&#34;, name)
+    response_chan &lt;- greeting
+    log.Print(&#34;Greeting function is tired - sleeping for a bit&#34;)
+    time.Sleep(3 * time.Second)
+    log.Print(&#34;now the greeting function is done sleeping - terminating&#34;)
+}
+
+func main() {
+
+    cs := make(chan string)
+    go Greet(&#34;Alice&#34;, cs)
+    log.Print(&#34;Continuing execution while we wait for greeter to respond&#34;)
+    greeting := &lt;-cs
+    log.Print(greeting)
+    time.Sleep(10 * time.Second)
+}</pre></div>
+
+      
+      </article>
+  
+  
+  
+      <article>
+      
+        <h3>Go makes concurrency easy</h3>
+        
+  <ul>
+  
+    <li>Goroutines are easy to reason about</li>
+  
+    <li>Channels make sharing information between goroutines easy</li>
+  
+    <li>Go includes <a href="http://golang.org/doc/articles/race_detector.html" target="_blank">a built-in race detector</a></li>
+  
+  </ul>
+
+      
+      </article>
+  
+  
+  
+      <article>
+      
+        <h2>The Go Toolchain and Libraries</h2>
+      
+      </article>
+  
+  
+  
+      <article>
+      
+        <h3>Go Standard Library</h3>
+        
+  
+  <p>
+    Some tools included for free in the <a href="http://golang.org/pkg/" target="_blank">standard library</a>:
+  </p>
+  
+
+  <ul>
+  
+    <li><a href="http://golang.org/pkg/image/" target="_blank">Image processing</a>: GIF/JPEG/PNG decoder &amp; encoder, and <a href="http://golang.org/pkg/image/draw/" target="_blank">image composition</a></li>
+  
+    <li>Web scraping: <a href="http://golang.org/pkg/encoding/xml/" target="_blank">xml</a> parser</li>
+  
+    <li>Email: <a href="http://golang.org/pkg/net/mail/" target="_blank">parse</a> and <a href="http://golang.org/pkg/net/smtp/" target="_blank">send</a> emails</li>
+  
+    <li>Numerical tools: Arithmetic on <a href="http://golang.org/pkg/math/big/" target="_blank">large numbers</a> and <a href="http://golang.org/pkg/math/cmplx/" target="_blank">complex/imaginary</a> numbers</li>
+  
+    <li>Security: A TLS 1.0 server <a href="http://golang.org/pkg/crypto/tls/" target="_blank">http://golang.org/pkg/crypto/tls/</a></li>
+  
+  </ul>
+
+      
+      </article>
+  
+  
+  
+      <article>
+      
+        <h3>Testing in Go</h3>
+        
+  <ul>
+  
+    <li>Go 1.2 includes a test coverage tool</li>
+  
+  </ul>
+
+<div class="image">
+  <img src="PJBBMu8.png">
+</div>
+
+      
+      </article>
+  
+  
+  
+      <article>
+      
+        <h3>gofmt</h3>
+        
+  <ul>
+  
+    <li>gofmt standardizes the formatting of source code</li>
+  
+    <li>gofmt can simplify expressions in code deterministically</li>
+  
+    <li>It can also be used to refactor code</li>
+  
+  </ul>
+
+      
+      </article>
+  
+  
+  
+      <article>
+      
+        <h2>Data scraping in Go</h2>
+      
+      </article>
+  
+  
+  
+      <article>
+      
+        <h3>Example: Rate-Limiting &amp; Scraping</h3>
+        
+  <ul>
+  
+    <li>(For the full project, see <a href="https://github.com/ChimeraCoder/anaconda" target="_blank">anaconda</a> and <a href="https://github.com/ChimeraCoder/tokenbucket" target="_blank">tokenbucket</a> on Github)</li>
+  
+  </ul>
+
+  <div class="code" contenteditable="true" spellcheck="false"><!--{{.code rate_limit_example.go}}
+--><pre>//Execute a query that will automatically be throttled
+func (c *TwitterApi) throttledQuery(queryQueue chan queryChan) {
+    for q := range queryQueue {
+
+        endpoint_path := q.endpoint_path
+        method := q.method
+        keyVals := q.keyVals
+        response_ch := q.response_ch
+        err := c.execQuery(url, form, data, method)
+        response_ch &lt;- struct {
+            result []byte
+            err    error
+        }{result, err}
+
+        // Reading from this will block until the specified time has elapsed
+        &lt;-time.After(SECONDS_PER_QUERY)
+    }
+}</pre></div>
+
+  <ul>
+  
+    <li>This lets us <b>decouple</b> the asynchronous scraping from the (synchronous) rate-limiting</li>
+  
+  </ul>
+
+      
+      </article>
+  
+  
+  
+      <article>
+      
+        <h3>Channels for parallel computation</h3>
+        
+  <ul>
+  
+    <li>If a computation can be split into independent components, it can be parallelized</li>
+  
+    <li>Channels can be used to signal completion of a portion of the work</li>
+  
+    <li>Channels can be used to select the fastest algorithm</li>
+  
+  </ul>
+
+      
+      </article>
+  
+  
+  
+      <article>
+      
+        <h3>Selecting Channels</h3>
+        
+  <ul>
+  
+    <li>&#34;select&#34; will read from the first channel that sends a value</li>
+  
+  </ul>
+
+  <div class="code" contenteditable="true" spellcheck="false"><!--{{.code select_example.go /START OMIT/,/END OMIT/}}
+--><pre>select {
+    case &lt;-algorithm1:
+        // a read from ch has occurred
+    case &lt;-algorithm2:
+        // the read from ch has timed out
+}</pre></div>
+
+  <ul>
+  
+    <li>This can also be used to initiate timeouts</li>
+  
+  </ul>
+
+  <div class="code" contenteditable="true" spellcheck="false"><!--{{.code select_timeout_example.go /START OMIT/,/END OMIT/}}
+--><pre>select {
+    case &lt;-ch:
+        // a read from ch has occurred
+    case &lt;-timeout:
+        // the read from ch has timed out
+}</pre></div>
+
+      
+      </article>
+  
+  
+  
+      <article>
+      
+        <h3>Example: Data Collection with Background Computation</h3>
+        
+<div class="image">
+  <img src="2013-08-18-220614_1366x768_scrot.png">
+</div>
+
+      
+      </article>
+  
+  
+  
+      <article>
+      
+        <h3>Example: Building Pluto (a Planet-like aggregator)</h3>
+        
+  
+  <p>
+    (See <a href="https://github.com/ChimeraCoder/pluto" target="_blank">Pluto</a> on Github)
+  </p>
+  
+
+<div class="image">
+  <img src="2013-12-02-150739_955x358_scrot.png">
+</div>
+
+      
+      </article>
+  
+  
+  
+      <article>
+      
+        <h3>Writing extensions in C</h3>
+        
+  <ul>
+  
+    <li>This is relatively easy to do via <a href="http://golang.org/cmd/cgo/" target="_blank">cgo</a></li>
+  
+    <li>While helpful, it is necessary far less often than you might think</li>
+  
+  </ul>
+
+      
+      </article>
+  
+  
+  
+      <article>
+      
+        <h3>Other useful munging tools</h3>
+        
+  
+  <p>
+    <a href="github.com/ChimeraCoder/gojson" target="_blank">go-json</a> - automatically generate static struct definitions for JSON unmarshalling
+<br>
+
+    <a href="labix.org/mgo" target="_blank">mgo</a> - a MongoDB client library for Go
+<br>
+
+    <a href="github.com/garyburd/redigo/redis" target="_blank">redigo</a> - A Redis client library in Go
+  </p>
+  
+
+      
+      </article>
+  
+  
+
+      <article>
+        <h3>Thank you</h1>
+        
+          <div class="presenter">
+            
+  
+  <p>
+    Aditya Mukerjee
+  </p>
+  
+
+          </div>
+        
+          <div class="presenter">
+            <p class="link"><a href="http://www.adityamukerjee.net" target="_blank">http://www.adityamukerjee.net</a></p><p class="link"><a href="http://twitter.com/chimeracoder" target="_blank">@chimeracoder</a></p>
+          </div>
+        
+      </article>
+
+  </body>
+  
+</html>
